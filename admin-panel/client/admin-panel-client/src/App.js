@@ -6,16 +6,33 @@ import Admin from "./components/admin";
 import User from "./components/user";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loggedin: false,
+    };
+  }
+
+  loginNavHandler = (value) => {
+    this.setState({ loggedin: value });
+  };
+
   render() {
     return (
       <div className="App">
         <Router>
-          <Navbar />
+          <Navbar loggedin={this.state.loggedin} />
           <Switch>
             <Route path="/" exact>
               <h2>Welcome To Website</h2>
             </Route>
-            <Route path="/login/" component={Login} />
+            <Route
+              path="/login/"
+              render={(props) => (
+                <Login {...props} loginNavHandler={this.loginNavHandler} />
+              )}
+            />
             <Route path="/admin/" component={Admin} />
             <Route path="/user/profile" component={User} />
           </Switch>

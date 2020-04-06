@@ -14,6 +14,8 @@ class Userlist extends Component {
   }
 
   fetchUserList = () => {
+    const overlay = document.querySelector(".overlay");
+    overlay.style.display = "block";
     fetch("/api/list/", {
       method: "POST",
       body: JSON.stringify({ token: localStorage.getItem("token") }),
@@ -23,7 +25,18 @@ class Userlist extends Component {
     })
       .then((res) => res.json())
       .then(async (data) => {
-        await this.setState({ users: data });
+        if (data.saved === "unsuccessful") {
+          const errors = document.getElementById("errors");
+          errors.innerHTML += data.error.msg;
+          window.location.hash = "errors";
+          setTimeout(function () {
+            errors.style.display = "none";
+            errors.innerHTML = "Errors : ";
+          }, 10000);
+        } else {
+          await this.setState({ users: data });
+        }
+        overlay.style.display = "none";
       });
   };
 
@@ -41,7 +54,11 @@ class Userlist extends Component {
       },
     })
       .then((res) => res.json())
-      .then((data) => document.getElementById(id).replaceWith("blocked"));
+      .then((data) => {
+        if (data.saved === "success") {
+          document.getElementById(id).replaceWith("blocked");
+        }
+      });
   };
 
   render() {
@@ -64,7 +81,11 @@ class Userlist extends Component {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.password}</td>
-                <td>{new Date(user.last_active).toLocaleString()}</td>
+                <td>
+                  {user.last_active === undefined
+                    ? "No logins"
+                    : new Date(user.last_active).toLocaleString()}
+                </td>
                 <td>
                   {user.disabled ? (
                     "Blocked"
@@ -78,6 +99,18 @@ class Userlist extends Component {
             ))}
           </tbody>
         </table>
+        <p id="errors" style={{ display: "none" }}>
+          Errors :{" "}
+        </p>
+        <div className="overlay">
+          <div
+            className="circular-loader"
+            style={{ position: "absolute", top: "45vh", left: "45vw" }}
+          ></div>
+          <p style={{ position: "absolute", top: "60vh", left: "43vw" }}>
+            Please Wait...
+          </p>
+        </div>
       </div>
     );
   }

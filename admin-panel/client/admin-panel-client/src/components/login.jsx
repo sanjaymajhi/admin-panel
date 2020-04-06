@@ -35,6 +35,7 @@ class Login extends Component {
         if (data.saved === "success") {
           localStorage.setItem("token", data.token);
           this.setLastActive();
+          this.props.loginNavHandler(true);
           if (data.admin) {
             this.props.history.push("/admin/user_list");
           } else {
@@ -69,9 +70,7 @@ class Login extends Component {
       headers: {
         "content-type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then();
   };
 
   render() {

@@ -15,7 +15,7 @@ class Navbar extends Component {
           <Link className="nav-left" to="/">
             <p>Website</p>
           </Link>
-          {!localStorage.getItem("token") ? (
+          {!this.props.loggedin ? (
             <ul id="navdiv1">
               <Link to="/login">
                 <li>Login</li>

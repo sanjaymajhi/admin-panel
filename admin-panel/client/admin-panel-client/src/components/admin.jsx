@@ -6,9 +6,6 @@ import Userlist from "./user_list";
 import Adduser from "./addUser";
 
 class Admin extends Component {
-  shouldComponentUpdate() {
-    return false;
-  }
   render() {
     return (
       <div className="admin">

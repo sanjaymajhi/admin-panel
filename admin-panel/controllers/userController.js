@@ -1,24 +1,23 @@
 var async = require("async");
 var mongoose = require("mongoose");
+var validator = require("express-validator");
+var jwt = require("jsonwebtoken");
 
 var User = require("../models/user");
-
-var validator = require("express-validator");
-
-var jwt = require("jsonwebtoken");
 
 exports.profile = (req, res) => {
   User.findById(req.user_detail.id).exec((err, details) => {
     if (details) {
       res.status(200).json(details);
-    } else {
-      res.send("no token");
     }
   });
 };
 
 exports.active = (req, res) => {
   User.findById({ _id: req.user_detail.id }).exec((err, result) => {
+    if (err) {
+      throw err;
+    }
     var user = new User({
       name: result.name,
       password: result.password,
@@ -50,6 +49,13 @@ exports.add_user = [
   validator.sanitizeBody("name").escape(),
 
   (req, res) => {
+    if (!req.user_detail.admin) {
+      res.json({
+        saved: "unsuccessful",
+        error: { msg: "You Are Not Admin" },
+      });
+      return;
+    }
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
       res.json({
@@ -157,9 +163,20 @@ exports.user_login_post = [
 ];
 
 exports.user_list = (req, res) => {
-  User.find({ admin: false }).exec((err, result) => {
-    res.json([...result]);
-  });
+  if (req.user_detail.admin) {
+    User.find({ admin: false }).exec((err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.json([...result]);
+    });
+  } else {
+    res.json({
+      saved: "unsuccessful",
+      error: { msg: "Your are not admin" },
+    });
+    return;
+  }
 };
 
 exports.disable_user = (req, res) => {

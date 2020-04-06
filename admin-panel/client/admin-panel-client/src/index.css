@@ -82,6 +82,7 @@ button, #form input[type="submit"], .admin .admin-main form input[type="submit"]
 }
 
 #errors {
+  display: none;
   margin: 20px auto;
   padding: 10px;
   width: 50%;
@@ -99,8 +100,7 @@ button, #form input[type="submit"], .admin .admin-main form input[type="submit"]
   display: grid;
   -ms-grid-columns: auto;
       grid-template-columns: auto;
-  background-color: white;
-  border-bottom: 1px solid lightgray;
+  background-color: #2b4b75;
 }
 
 .navbar .nav {
@@ -114,7 +114,7 @@ button, #form input[type="submit"], .admin .admin-main form input[type="submit"]
   font-size: x-large;
   font-weight: bold;
   padding-left: 20px;
-  color: #26247b;
+  color: white;
 }
 
 .navbar .nav p img {
@@ -129,14 +129,14 @@ button, #form input[type="submit"], .admin .admin-main form input[type="submit"]
 }
 
 .navbar .nav ul li {
-  border: 2px solid gray;
+  border: 2px solid white;
   margin-right: 20px;
-  color: gray;
+  color: white;
   padding: 10px;
 }
 
 .navbar .nav ul a {
-  color: gray;
+  color: white;
 }
 
 a {
@@ -236,10 +236,6 @@ a {
   margin: 0;
 }
 
-.admin .a_nav p i {
-  vertical-align: middle;
-}
-
 .admin .a_nav p:hover {
   background-color: black;
 }
@@ -273,6 +269,23 @@ a {
   border: 1px solid lightgray;
 }
 
+.overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.3)));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+  z-index: 9999;
+}
+
+.overlay p {
+  color: white;
+  font-weight: bold;
+}
+
 .circular-loader {
   border: 16px solid lightgray;
   border-top: 16px solid #2d67b2;
@@ -304,22 +317,5 @@ a {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
-}
-
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.3)));
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
-  z-index: 9999;
-}
-
-.overlay p {
-  color: white;
-  font-weight: bold;
 }
 /*# sourceMappingURL=index.css.map */
