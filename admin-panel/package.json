@@ -8,6 +8,9 @@
     "client": "cd ./client/admin-panel-client && npm start",
     "start-both": "concurrently \" npm run devstart\" \" npm run client\" "
   },
+  "engines": {
+    "node": "12.16.1"
+  },
   "dependencies": {
     "concurrently": "^5.1.0",
     "cookie-parser": "~1.4.4",
