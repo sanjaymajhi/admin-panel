@@ -10,20 +10,23 @@ class Adduser extends Component {
     };
   }
 
-  handleChange = (e) => {
+  handleChange = async (e) => {
     const target = e.target;
     const name = target.name;
     const value = target.value;
-    this.setState({
+    await this.setState({
       [name]: value,
     });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/users/add_user", {
+    fetch("/api/add_user", {
       method: "POST",
       body: JSON.stringify({ ...this.state }),
+      headers: {
+        "content-type": "application/json",
+      },
     })
       .then((res) => res.json())
       .then((data) => console.log(data));

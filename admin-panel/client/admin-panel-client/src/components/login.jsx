@@ -34,9 +34,9 @@ class Login extends Component {
       .then((data) => {
         if (data.saved === "success") {
           localStorage.setItem("token", data.token);
-          this.props.handleToken(data.token, data.admin);
+          this.setLastActive();
           if (data.admin) {
-            this.props.history.push("/admin/");
+            this.props.history.push("/admin/user_list");
           } else {
             this.props.history.push("/user/profile");
           }
@@ -60,6 +60,18 @@ class Login extends Component {
           }, 10000);
         }
       });
+  };
+
+  setLastActive = () => {
+    fetch("/api/active", {
+      method: "POST",
+      body: JSON.stringify({ token: localStorage.getItem("token") }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   render() {

@@ -5,7 +5,6 @@ var User = require("../models/user");
 
 var validator = require("express-validator");
 
-var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 
 exports.profile = (req, res) => {
@@ -15,6 +14,25 @@ exports.profile = (req, res) => {
     } else {
       res.send("no token");
     }
+  });
+};
+
+exports.active = (req, res) => {
+  User.findById({ _id: req.user_detail.id }).exec((err, result) => {
+    var user = new User({
+      name: result.name,
+      password: result.password,
+      email: result.email,
+      last_active: Date.now(),
+      admin: result.admin,
+      _id: result._id,
+    });
+    User.findByIdAndUpdate(user._id, user, (err) => {
+      if (err) {
+        throw err;
+      }
+      res.json({ saved: "success" });
+    });
   });
 };
 
@@ -52,12 +70,10 @@ exports.add_user = [
         });
         return;
       } else {
-        var salt = await bcrypt.genSalt(10);
-        var password = await bcrypt.hash(req.body.password, salt);
-
+        //As admin is setting password it does not needs to encrypt the password while saving in database
         var user = new User({
           name: req.body.name,
-          password: password,
+          password: req.body.password,
           email: req.body.email,
         });
 
@@ -74,14 +90,8 @@ exports.add_user = [
 ];
 
 exports.user_login_post = [
-  validator
-    .body("email", "Invalid Username or Password")
-    .isLength({ min: 5 })
-    .trim(),
-  validator
-    .body("password", "Invalid Username or Password")
-    .isLength({ min: 5 })
-    .trim(),
+  validator.body("email", "Invalid Username").isLength({ min: 5 }).trim(),
+  validator.body("password", "Invalid Password").isLength({ min: 5 }).trim(),
 
   validator.sanitizeBody("*").escape(),
 
@@ -94,22 +104,25 @@ exports.user_login_post = [
       });
       return;
     }
-    User.findOne({ email: req.body.email }, "email password admin").exec(
-      async (err, result) => {
-        if (err) {
-          throw err;
-        }
-        if (!result) {
+    User.findOne({ email: req.body.email }).exec(async (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (!result) {
+        res.json({
+          saved: "unsuccessful",
+          error: { msg: "Email does not exists" },
+        });
+        return;
+      } else {
+        if (result.disabled) {
           res.json({
             saved: "unsuccessful",
-            error: { msg: "Email does not exists" },
+            error: { msg: "Your account is blocked" },
           });
           return;
         } else {
-          const isMatch = await bcrypt.compare(
-            req.body.password,
-            result.password
-          );
+          const isMatch = req.body.password === result.password;
           if (!isMatch) {
             res.json({
               saved: "unsuccessful",
@@ -139,10 +152,33 @@ exports.user_login_post = [
           }
         }
       }
-    );
+    });
   },
 ];
 
-exports.user_list = (req, res) => {};
+exports.user_list = (req, res) => {
+  User.find({ admin: false }).exec((err, result) => {
+    res.json([...result]);
+  });
+};
 
-exports.disable_user = (req, res) => {};
+exports.disable_user = (req, res) => {
+  User.findOne({ email: req.body.email }).exec(async (err, result) => {
+    if (err) {
+      throw err;
+    }
+    var user = new User({
+      name: result.name,
+      password: result.password,
+      email: result.email,
+      disabled: Boolean(true),
+      _id: result._id,
+    });
+    await User.findByIdAndUpdate(user._id, user, (err) => {
+      if (err) {
+        throw err;
+      }
+      res.json({ saved: "success" });
+    });
+  });
+};

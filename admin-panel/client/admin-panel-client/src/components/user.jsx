@@ -13,7 +13,7 @@ class User extends Component {
   }
 
   fetchUser = () => {
-    fetch("/users/profile", {
+    fetch("/api/profile", {
       method: "POST",
       body: JSON.stringify({ token: localStorage.getItem("token") }),
       headers: {
@@ -21,13 +21,17 @@ class User extends Component {
       },
     })
       .then((res) => res.json())
-      .then(
-        async (data) =>
+      .then(async (data) => {
+        if (data.saved === "unsuccessful") {
+          alert("You are not logged in...");
+          this.props.history.push("/login");
+        } else {
           await this.setState({
             name: data.name,
             email: data.email,
-          })
-      );
+          });
+        }
+      });
   };
   render() {
     return (
