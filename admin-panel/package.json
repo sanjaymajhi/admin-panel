@@ -3,15 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "client": "cd ./client/admin-panel-client && npm start",
+    "start-both": "concurrently \" npm run devstart\" \" npm run client\" "
   },
   "dependencies": {
+    "concurrently": "^5.1.0",
     "cookie-parser": "~1.4.4",
+    "create-react-app": "^3.4.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "mongoose": "^5.9.7",
+    "morgan": "~1.9.1",
+    "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

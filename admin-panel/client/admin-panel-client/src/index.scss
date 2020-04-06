@@ -1,0 +1,263 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+body {
+  margin: 0;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: auto;
+}
+
+* {
+  box-sizing: border-box;
+  text-align: center;
+  font-family: sans-serif;
+  outline: 0;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: auto;
+  text-align: center;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+
+#form-border {
+  border: 1px solid lightgray;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px lightgray;
+}
+
+#form {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 20px;
+  margin: auto 20%;
+  label {
+    text-align: left;
+  }
+  input[type="submit"] {
+    @extend button;
+    padding: 10px;
+    width: 100%;
+  }
+}
+
+button {
+  justify-self: center;
+  align-self: center;
+  color: #008cff;
+  font-weight: 700;
+  background-color: white;
+  border-radius: 30px;
+  border: 1px solid lightgray;
+  box-shadow: 0 0 5px lightgray;
+  font-family: sans-serif;
+}
+
+#errors {
+  margin: 20px auto;
+  padding: 10px;
+  width: 50%;
+  border: 1px solid lightgray;
+  box-shadow: 0 0 5px lightgray;
+  p {
+    text-align: left;
+  }
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+  .nav {
+    p {
+      font-size: x-large;
+      font-weight: bold;
+      padding-left: 20px;
+      color: #26247b;
+      img {
+        width: 20px;
+        vertical-align: middle;
+      }
+    }
+    display: grid;
+    grid-template-columns: auto auto;
+    ul {
+      justify-self: end;
+      list-style-type: none;
+      li {
+        border: 2px solid gray;
+        margin-right: 20px;
+        color: gray;
+        padding: 10px;
+      }
+      a {
+        color: gray;
+      }
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav-left {
+  width: 50%;
+}
+
+#navdiv1,
+#navdiv2 {
+  width: 65%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#login_form {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  margin: 5vh 20%;
+  padding: 5vh 0;
+  @extend #form-border;
+  label {
+    font-weight: bold;
+  }
+  input {
+    padding: 10px;
+    border: 1px solid gray;
+    width: 80%;
+  }
+  input[type="submit"] {
+    width: 80%;
+    padding: 10px;
+    background: #2d67b2;
+    color: white;
+    font-weight: bold;
+  }
+  h1 {
+    grid-column: span 2;
+  }
+}
+
+.admin {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  .a_nav {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    border-right: 1px solid lightgray;
+    overflow: auto;
+    background-color: #2b4b75;
+    color: white;
+    h2 {
+      margin: 0;
+      background-color: #101e30;
+      padding: 20px 10px;
+    }
+    div {
+      background-color: #2b4b75;
+      padding: 0 10px;
+      ul {
+        li {
+          color: white;
+          text-align: left;
+          padding: 5px;
+        }
+      }
+    }
+    p {
+      display: grid;
+      grid-template-columns: 20% 60% 20%;
+      color: white;
+      text-align: left;
+      padding: 20px 10px;
+      margin: 0;
+      i {
+        vertical-align: middle;
+      }
+    }
+    p:hover {
+      background-color: black;
+    }
+  }
+  .admin-main {
+    padding-left: 5vw;
+    form {
+      @extend #form;
+      display: grid;
+      grid-template-columns: auto auto;
+      div {
+        display: grid;
+        grid-template-columns: auto auto;
+        text-align: left;
+      }
+      input {
+        padding: 10px;
+      }
+      select {
+        padding: 10px;
+        background-color: white;
+        border: 1px solid lightgray;
+      }
+      input[type="submit"] {
+        @extend button;
+      }
+    }
+  }
+}
+
+.circular-loader {
+  border: 16px solid lightgray;
+  border-top: 16px solid #2d67b2;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.3)
+  );
+  z-index: 9999;
+  p {
+    color: white;
+    font-weight: bold;
+  }
+}
