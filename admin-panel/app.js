@@ -45,10 +45,10 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
+var dotenv = require("dotenv");
+dotenv.config();
 var mongoose = require("mongoose");
-var dev_db_URl =
-  "mongodb+srv://sanjay:1Sanjay@@cluster0-1naxh.mongodb.net/test?retryWrites=true&w=majority";
+var dev_db_URl = "";
 var mongoDB = process.env.MONGODB_URI || dev_db_URl;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
