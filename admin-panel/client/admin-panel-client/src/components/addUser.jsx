@@ -69,6 +69,7 @@ class Adduser extends Component {
           <input
             type="text"
             name="name"
+            required
             value={this.state.name}
             onChange={this.handleChange}
           />
@@ -76,6 +77,7 @@ class Adduser extends Component {
           <input
             type="email"
             name="email"
+            required
             value={this.state.email}
             onChange={this.handleChange}
           />
@@ -83,6 +85,7 @@ class Adduser extends Component {
           <input
             type="password"
             name="password"
+            required
             value={this.state.password}
             onChange={this.handleChange}
           />

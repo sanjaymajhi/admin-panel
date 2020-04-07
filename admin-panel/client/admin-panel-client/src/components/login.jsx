@@ -83,6 +83,7 @@ class Login extends Component {
             id="email"
             type="email"
             name="email"
+            required
             value={this.state.email}
             onChange={this.handleChange}
           />
@@ -91,6 +92,7 @@ class Login extends Component {
             id="password"
             name="password"
             type="text"
+            required
             value={this.state.password}
             onChange={this.handleChange}
           />
