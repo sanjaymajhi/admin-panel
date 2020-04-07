@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class Navbar extends Component {
   logout = (e) => {
+    e.preventDefault();
     localStorage.removeItem("token");
-    this.props.history.push({
-      path: "/",
-    });
+    this.props.loginNavHandler(false);
+    this.props.history.push("/login");
   };
   render() {
     return (
@@ -24,9 +24,7 @@ class Navbar extends Component {
           ) : (
             <ul id="navdiv2">
               <li>
-                <a href="/" onClick={this.logout}>
-                  Log Out
-                </a>
+                <a onClick={this.logout}>Log Out</a>
               </li>
             </ul>
           )}
@@ -36,4 +34,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

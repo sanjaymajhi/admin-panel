@@ -22,7 +22,10 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Navbar loggedin={this.state.loggedin} />
+          <Navbar
+            loggedin={this.state.loggedin}
+            loginNavHandler={this.loginNavHandler}
+          />
           <Switch>
             <Route path="/" exact>
               <h2>Welcome To Website</h2>
