@@ -27,9 +27,7 @@ var helmet = require("helmet");
 app.use(helmet());
 
 app.get("/*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "./client/admin-panel-client/build", "index.html")
-  );
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // catch 404 and forward to error handler
