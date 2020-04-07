@@ -13,6 +13,8 @@ class User extends Component {
   }
 
   fetchUser = () => {
+    const overlay = document.querySelector(".overlay");
+    overlay.style.display = "block";
     fetch("/api/profile", {
       method: "POST",
       body: JSON.stringify({ token: localStorage.getItem("token") }),
@@ -22,6 +24,7 @@ class User extends Component {
     })
       .then((res) => res.json())
       .then(async (data) => {
+        overlay.style.display = "none";
         if (data.saved === "unsuccessful") {
           alert("You are not logged in...");
           this.props.history.push("/login");
@@ -42,6 +45,15 @@ class User extends Component {
           <h2>{this.state.name}</h2>
           <h2>Email :</h2>
           <h2>{this.state.email}</h2>
+        </div>
+        <div className="overlay">
+          <div
+            className="circular-loader"
+            style={{ position: "absolute", top: "45vh", left: "45vw" }}
+          ></div>
+          <p style={{ position: "absolute", top: "60vh", left: "43vw" }}>
+            Verifying Credentials...
+          </p>
         </div>
       </div>
     );

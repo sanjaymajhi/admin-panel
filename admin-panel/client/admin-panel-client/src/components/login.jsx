@@ -91,7 +91,7 @@ class Login extends Component {
           <input
             id="password"
             name="password"
-            type="text"
+            type="password"
             required
             value={this.state.password}
             onChange={this.handleChange}

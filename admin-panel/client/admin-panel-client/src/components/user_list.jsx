@@ -42,6 +42,8 @@ class Userlist extends Component {
 
   disableHandler = (e) => {
     e.preventDefault();
+    const overlay = document.querySelector(".overlay");
+    overlay.style.display = "block";
     const id = e.target.id;
     fetch("/api/disable", {
       method: "POST",
@@ -55,6 +57,7 @@ class Userlist extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
+        overlay.style.display = "none";
         if (data.saved === "success") {
           document.getElementById(id).replaceWith("blocked");
         }
